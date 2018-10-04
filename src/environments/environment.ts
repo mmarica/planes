@@ -2,8 +2,11 @@
 // `ng build ---prod` replaces `environment.ts` with `environment.prod.ts`.
 // The list of file replacements can be found in `angular.json`.
 
+import { PUSHER_KEY } from './pusher.key';
+
 export const environment = {
-  production: false
+    production: false,
+    pusherKey: PUSHER_KEY
 };
 
 /*
