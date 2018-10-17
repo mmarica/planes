@@ -10,10 +10,11 @@ export class PusherService {
 
     public constructor() {
         this.pusher = new Pusher(environment.pusherKey, {
-            authEndpoint: 'http://localhost/auth.php',
+            cluster: 'eu',
+            authEndpoint: 'http://localhost:8000/auth.php',
         });
 
-        this.messagesChannel = this.pusher.subscribe('private-all-messages');
+        this.messagesChannel = this.pusher.subscribe('presence-mma');
 
         this.messagesChannel.bind('client-new-message', (message) => {
             // ...
