@@ -1,18 +1,10 @@
-import { Component, OnInit } from '@angular/core';
-import { PusherService }     from './pusher.service';
+import { Component } from '@angular/core';
 
 @Component({
-    selector: 'app-root',
-    templateUrl: './app.component.html',
-    styleUrls: ['./app.component.css']
+  selector: 'app-root',
+  templateUrl: './app.component.html',
+  styleUrls: ['./app.component.css']
 })
-export class AppComponent implements OnInit {
-    public constructor(
-        private pusher: PusherService
-    ) {
-    }
-
-    ngOnInit(): void {
-
-    }
+export class AppComponent {
+  title = 'planes';
 }
