@@ -1,5 +1,5 @@
-import {Component, OnInit} from '@angular/core';
-import {Socket} from 'ng6-socket-io';
+import {Component, NgZone, OnInit} from '@angular/core';
+import {Socket, SocketIoConfig} from 'ng6-socket-io';
 
 @Component({
     selector: 'app-home',
@@ -7,11 +7,16 @@ import {Socket} from 'ng6-socket-io';
     styleUrls: ['./home.component.css']
 })
 export class HomeComponent implements OnInit {
+    private config: SocketIoConfig = {url: 'http://localhost:3000', options: {}};
+    private socket: Socket;
 
-    constructor(private socket: Socket) {
-        this.socket.emit('message', 'connected');
+    constructor(zone: NgZone) {
+        this.socket =  new Socket(this.config, zone);
+
+        console.log(this.socket);
     }
 
     ngOnInit() {
+        this.socket.emit('message', 'connected');
     }
 }

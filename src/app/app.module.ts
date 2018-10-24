@@ -6,8 +6,6 @@ import {AppComponent} from './app.component';
 import {HomeComponent} from './home/home.component';
 import {SocketIoConfig, SocketIoModule} from 'ng6-socket-io';
 
-const config: SocketIoConfig = {url: 'http://localhost:3000', options: {}};
-
 @NgModule({
     declarations: [
         AppComponent,
@@ -16,7 +14,7 @@ const config: SocketIoConfig = {url: 'http://localhost:3000', options: {}};
     imports: [
         BrowserModule,
         AppRoutingModule,
-        SocketIoModule.forRoot(config),
+        SocketIoModule,
     ],
     providers: [],
     bootstrap: [AppComponent]

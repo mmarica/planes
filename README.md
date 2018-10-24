@@ -1,22 +1,18 @@
 # Planes
 
-## Server side
-
-Enter the server folder:
-```
-cd server
-```
-
-Start the server:
-```
-```
-
-## Client side
-
 Install node packages:
 ```
 npm install
 ```
+
+## Server side
+
+Start the server:
+```
+node server.js
+```
+
+## Client side
 
 Start the app:
 ```
