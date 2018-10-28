@@ -1,3 +1,15 @@
-<p>
-Welcome, I've been expecting you!
-</p>
+<form [formGroup]="loginForm" (ngSubmit)="onLoginSubmit()" novalidate>
+  <div>
+    <mat-form-field>
+      <input matInput formControlName="name" placeholder="Name">
+    </mat-form-field>
+    <div *ngIf="submitted && f.name.errors" class="invalid-feedback">
+      <div *ngIf="f.name.errors.required">Name is required</div>
+    </div>
+  </div>
+
+  <div>
+    <button mat-raised-button type="submit" color="primary" [disabled]="loginForm.disabled">Login</button>
+  </div>
+</form>
+
