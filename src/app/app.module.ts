@@ -4,7 +4,7 @@ import {AppRoutingModule} from './app-routing.module';
 import {AppComponent} from './app.component';
 import {HomeComponent} from './home/home.component';
 import {SocketIoModule} from 'ng6-socket-io';
-import {AuthService} from './auth/auth.service';
+import {PlayerService} from './player.service';
 import {ReactiveFormsModule} from '@angular/forms';
 import {AppMaterialModule} from './app-material.module';
 import {LobbyComponent} from './lobby/lobby.component';
@@ -22,7 +22,7 @@ import {LobbyComponent} from './lobby/lobby.component';
     SocketIoModule,
     ReactiveFormsModule,
   ],
-  providers: [AuthService],
+  providers: [PlayerService],
   bootstrap: [AppComponent]
 })
 export class AppModule {

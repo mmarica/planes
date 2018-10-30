@@ -1,3 +1,10 @@
 <p>
   Welcome, {{name}}!
 </p>
+
+<ul>
+  Other players online now:
+  <li *ngFor="let socketId of playerList.keys | async">
+    {{ playerList[socketId] }} ({{ socketId }})
+  </li>
+</ul>

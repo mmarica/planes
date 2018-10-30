@@ -1,28 +1,59 @@
 var Player = require('./Player');
 
 class PlayerList {
-    constructor() {
-        this.players = {};
+  constructor() {
+    this.players = {};
+  }
+
+  add(socket) {
+    this.players[socket.id] = new Player(socket);
+    // console.log('Player list now:');
+    // console.log(this.players);
+  }
+
+  login(socketId, name) {
+    let player = this.players[socketId];
+    player.setName(name);
+
+    // only now the player is considered as connected, send him the list of other players
+    player.sendPlayerList(this.getList(socketId));
+    player.broadcastPlayerConnected();
+
+    // console.log('Player list now:');
+    // console.log(this.players);
+  }
+
+  remove(socketId) {
+    this.players[socketId].disconnect();
+    delete this.players[socketId];
+    // console.log('Player list now:');
+    // console.log(this.players);
+  }
+
+  getList(socketIdToSkip) {
+    let list = [];
+
+    for (var socketId in this.players) {
+      // skip current player
+      if (socketId == socketIdToSkip) {
+        continue;
+      }
+
+      if (this.players.hasOwnProperty(socketId)) {
+        let player = this.players[socketId];
+        let name = player.getName();
+
+        // user has not logged-in (yet?), don't show
+        if (name == '') {
+          continue;
+        }
+
+        list[player.getSocketId()] = name;
+      }
     }
 
-    add(socket) {
-        this.players[socket.id] = new Player(socket);
-        // console.log('Player list now:');
-        // console.log(this.players);
-    }
-
-    login(socketId, name) {
-        this.players[socketId].setName(name);
-        // console.log('Player list now:');
-        // console.log(this.players);
-    }
-
-    remove(socketId) {
-        this.players[socketId].disconnect();
-        delete this.players[socketId];
-        // console.log('Player list now:');
-        // console.log(this.players);
-    }
+    return list;
+  }
 }
 
 module.exports = PlayerList;
