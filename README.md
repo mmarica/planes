@@ -9,7 +9,8 @@ npm install
 
 Start the server:
 ```
-node server.js
+cd server
+node main.js
 ```
 
 ## Client side
