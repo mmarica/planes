@@ -1,31 +1,25 @@
 import {Injectable, NgZone} from '@angular/core';
 import {Socket, SocketIoConfig} from 'ng6-socket-io';
+import {BehaviorSubject} from 'rxjs';
 
 @Injectable()
 export class PlayerService {
     private config: SocketIoConfig = {url: 'http://localhost:3000', options: {}};
     private socket: Socket;
     private name = '';
-    private playerList = {};
+    private playerList = [];
+    private playerListSubject = new BehaviorSubject<Object[]>([]);
+    public playerList$ = this.playerListSubject.asObservable();
 
     constructor(
         private zone: NgZone,
     ) {
-        // const storageName = localStorage.getItem('name');
-        //
-        // if (storageName !== null) {
-        //     this.name = storageName;
-        // } else {
-        //     this.name = 'user_' + Math.floor(Math.random() * 1000);
-        // }
     }
 
     login(name) {
         this.socket = new Socket(this.config, this.zone);
 
-        this.socket.on('player list', (list) => {
-            this.playerList = list;
-        });
+        this.socket.on('player list', (list) => this.onPlayerList(list));
 
         this.socket.on('player connected', (player) => {
             console.log('Player connected: ', player);
@@ -45,7 +39,34 @@ export class PlayerService {
         return this.name;
     }
 
-    getPlayerList() {
-        return this.playerList;
+    onPlayerList(dictionary) {
+      const list = [];
+
+      Object.keys(dictionary).forEach(function(socketId) {
+        list.push({
+          socketId: socketId,
+          name: dictionary[socketId],
+        });
+      });
+
+      this.sortPlayerList(list);
+
+      this.playerList = list;
+      this.playerListSubject.next(this.playerList);
+      console.log('onPlayerList', this.playerList);
+    }
+
+    private sortPlayerList(list) {
+      list.sort((a, b) => {
+        if (a.name < b.name) {
+          return -1;
+        }
+
+        if (a.name > b.name) {
+          return 1;
+        }
+
+        return 0;
+      });
     }
 }

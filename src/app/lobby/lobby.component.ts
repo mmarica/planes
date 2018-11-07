@@ -2,23 +2,24 @@ import {Component, OnInit} from '@angular/core';
 import {PlayerService} from '../player.service';
 
 @Component({
-    selector: 'app-lobby',
-    templateUrl: './lobby.component.html',
-    styleUrls: ['./lobby.component.css']
+  selector: 'app-lobby',
+  templateUrl: './lobby.component.html',
+  styleUrls: ['./lobby.component.css']
 })
 export class LobbyComponent implements OnInit {
-    name = '';
+  name = '';
+  playerList = [];
 
-    constructor(
-        private playerService: PlayerService,
-    ) {
-        this.name = this.playerService.getName();
-    }
+  constructor(
+    public playerService: PlayerService,
+  ) {
+    this.name = this.playerService.getName();
+    this.playerService.playerList$.subscribe((list) => {
+      this.playerList = list;
+      console.log("Data Values",this.playerList);
+    });
+  }
 
-    ngOnInit() {
-    }
-
-    get playerList() {
-        return this.playerService.getPlayerList();
-    }
+  ngOnInit() {
+  }
 }

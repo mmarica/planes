@@ -31,7 +31,14 @@ class PlayerList {
   }
 
   getList(socketIdToSkip) {
-    let list = [];
+    // @TODO MMA: remove temp hack
+    return {
+      x1: 'Gogelu',
+      x2: 'Doorel',
+      x3: 'Purcel',
+    };
+
+    let list = {};
 
     for (var socketId in this.players) {
       // skip current player
