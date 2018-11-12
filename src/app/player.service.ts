@@ -1,15 +1,15 @@
 import {Injectable, NgZone} from '@angular/core';
 import {Socket, SocketIoConfig} from 'ng6-socket-io';
 import {BehaviorSubject} from 'rxjs';
+import {PlayerModel} from './player.model';
 
 @Injectable()
 export class PlayerService {
     private config: SocketIoConfig = {url: 'http://localhost:3000', options: {}};
     private socket: Socket;
     private name = '';
-    private playerList = [];
-    private playerListSubject = new BehaviorSubject<Object[]>([]);
-    public playerList$ = this.playerListSubject.asObservable();
+    private playerList: PlayerModel[] = [];
+    private playerListSubject = new BehaviorSubject<PlayerModel[]>([]);
 
     constructor(
         private zone: NgZone,
@@ -39,21 +39,25 @@ export class PlayerService {
         return this.name;
     }
 
+    observePlayerList() {
+      return this.playerListSubject.asObservable();
+    }
+
     onPlayerList(dictionary) {
       const list = [];
 
       Object.keys(dictionary).forEach(function(socketId) {
-        list.push({
-          socketId: socketId,
-          name: dictionary[socketId],
-        });
+        const player = new PlayerModel();
+        player.name = dictionary[socketId];
+        player.socketId = socketId;
+        list.push(player);
       });
 
       this.sortPlayerList(list);
-
       this.playerList = list;
-      this.playerListSubject.next(this.playerList);
-      console.log('onPlayerList', this.playerList);
+
+      this.playerListSubject.next(list);
+      console.log('onPlayerList', list);
     }
 
     private sortPlayerList(list) {

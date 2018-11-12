@@ -4,7 +4,7 @@
 
 <ul>
   Other players online now:
-  <li *ngFor="let player of playerList">
+  <li *ngFor="let player of playerList$ | async">
     {{ player.name }} ({{ player.socketId }})
   </li>
 </ul>

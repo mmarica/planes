@@ -1,5 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {PlayerService} from '../player.service';
+import {PlayerModel} from '../player.model';
 
 @Component({
   selector: 'app-lobby',
@@ -8,15 +9,14 @@ import {PlayerService} from '../player.service';
 })
 export class LobbyComponent implements OnInit {
   name = '';
-  playerList = [];
+  playerList: PlayerModel[];
 
   constructor(
     public playerService: PlayerService,
   ) {
     this.name = this.playerService.getName();
-    this.playerService.playerList$.subscribe((list) => {
-      this.playerList = list;
-      console.log("Data Values",this.playerList);
+    this.playerService.observePlayerList().subscribe((list) => {
+      this.playerList =  Object.assign([], list);
     });
   }
 
